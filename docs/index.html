@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MATH</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16/dist/contrib/auto-render.min.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    renderMathInElement(document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "\\[", right: "\\]", display: true},
+            {left: "$",  right: "$",  display: false},
+            {left: "\\(", right: "\\)", display: false}
+        ],
+        macros: {"\\framebox": "\\boxed{#1}"},
+        throwOnError: false
+    });
+});
+</script>
+
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+    :root {
+        --bg-deep: #0a0a0f;
+        --bg-surface: #12121a;
+        --bg-raised: #1a1a26;
+        --border: #2a2a3a;
+        --text-primary: #eeeef0;
+        --text-secondary: #a0a0b0;
+        --text-muted: #6a6a7e;
+        --accent: #6366f1;
+        --nt: #60a5fa;
+        --cp: #c084fc;
+        --alg: #fb923c;
+    }
+    body { font-family: 'DM Sans', sans-serif; font-size: 18px; line-height: 1.7; background: var(--bg-deep); color: var(--text-primary); -webkit-font-smoothing: antialiased; }
+    .text-xs { font-size: 0.9375rem !important; }
+    .text-sm { font-size: 1.0625rem !important; }
+    .text-lg { font-size: 1.375rem !important; }
+    .text-2xl { font-size: 1.875rem !important; }
+    .bg-gray-950 { background: var(--bg-deep) !important; }
+    .bg-gray-900 { background: var(--bg-surface) !important; }
+    .bg-gray-800 { background: var(--bg-raised) !important; }
+    .border-gray-800 { border-color: var(--border) !important; }
+    .text-gray-400 { color: var(--text-secondary) !important; }
+    .text-gray-500 { color: var(--text-muted) !important; }
+    .font-mono { font-family: 'JetBrains Mono', monospace !important; }
+    .topic-nt { color: var(--nt); }
+    .topic-cp { color: var(--cp); }
+    .topic-alg { color: var(--alg); }
+    .chip { display: inline-block; padding: 0.125rem 0.5rem; border-radius: 999px; font-size: 0.75rem; font-weight: 500; background: rgba(255,255,255,0.06); }
+    .chip-nt { background: rgba(96,165,250,0.15); color: var(--nt); }
+    .chip-cp { background: rgba(192,132,252,0.15); color: var(--cp); }
+    .chip-alg { background: rgba(251,146,60,0.15); color: var(--alg); }
+    .chip-ai { background: rgba(148,163,184,0.18); color: #cbd5e1; }
+:root { --hint-accent: #818cf8; }
+.hint-chain {
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    background: rgba(99,102,241,0.03);
+    padding: 0.6rem 0.9rem;
+}
+.hint-chain-head {
+    display: flex; align-items: center; gap: 0.55rem;
+    font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase;
+    color: #94a3b8;
+}
+.chain-progress {
+    background: rgba(148,163,184,0.15); color: #cbd5e1;
+    padding: 0.1rem 0.5rem; border-radius: 999px;
+    font-family: 'JetBrains Mono', monospace;
+}
+.reveal-btn {
+    margin-left: auto;
+    border: 1px solid color-mix(in srgb, var(--hint-accent) 40%, var(--border));
+    color: var(--hint-accent);
+    padding: 0.3rem 0.75rem; border-radius: 0.4rem;
+    font-size: 0.9375rem; font-weight: 500; letter-spacing: normal; text-transform: none;
+    background: transparent;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.reveal-btn:hover {
+    background: color-mix(in srgb, var(--hint-accent) 15%, transparent);
+    color: #fff; border-color: var(--hint-accent);
+}
+.reveal-btn[hidden], .reveal-btn[data-state="done"] { display: none; }
+.reveal-btn[data-state="pending"] { opacity: 0.55; cursor: wait; }
+.hint-card {
+    border-left: 3px solid var(--hint-accent);
+    background: color-mix(in srgb, var(--hint-accent) 6%, transparent);
+    border-radius: 0.375rem;
+    padding: 0.55rem 0.8rem;
+}
+.hint-card[hidden] { display: none; }
+.hint-card + .hint-card { margin-top: 0.5rem; }
+.hint-card-head {
+    display: flex; align-items: center; gap: 0.4rem;
+    font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em;
+    font-weight: 600; color: var(--hint-accent);
+    margin-bottom: 0.3rem;
+}
+.hint-card-dot {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 1.05rem; height: 1.05rem; border-radius: 999px;
+    background: var(--hint-accent); color: #0a0a0f;
+    font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; font-weight: 700;
+}
+.hint-card-body {
+    color: var(--text-primary);
+    font-size: 1.125rem; line-height: 1.75;
+    white-space: pre-wrap;
+}
+.hint-pending-note {
+    font-size: 0.8rem; color: var(--text-muted); font-style: italic;
+    padding: 0.2rem 0;
+}
+    .hint-list { margin-top: 0.7rem; display: grid; gap: 0.5rem; }
+    /* Working vocabulary — neutral-gray card above Polya hints. */
+    .prereq-section {
+        border: 1px solid var(--border);
+        background: rgba(255,255,255,0.015);
+        border-left: 3px solid #64748b;
+        border-radius: 0.5rem;
+        padding: 0.5rem 0.875rem;
+    }
+    .prereq-section > summary {
+        cursor: pointer; user-select: none;
+        display: flex; align-items: center; gap: 0.5rem;
+        font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em;
+        font-weight: 600; color: #94a3b8; list-style: none;
+    }
+    .prereq-section > summary::-webkit-details-marker { display: none; }
+    .prereq-section > summary:hover { color: #e2e8f0; }
+    .prereq-section .count-chip {
+        background: rgba(148,163,184,0.18);
+        padding: 0.1rem 0.5rem; border-radius: 999px;
+        font-size: 0.75rem; font-weight: 500; color: #cbd5e1;
+    }
+    .prereq-section .prereq-list { margin-top: 0.55rem; display: grid; gap: 0.7rem; }
+    .prereq-section .prereq-item {
+        font-size: 1rem; line-height: 1.6;
+    }
+    .prereq-section .prereq-item a {
+        display: inline-block; margin-bottom: 0.15rem;
+        color: #93c5fd; font-weight: 500;
+        border-bottom: 1px dashed transparent;
+    }
+    .prereq-section .prereq-item a:hover {
+        color: #dbeafe; border-bottom-color: #93c5fd;
+    }
+    .prereq-section .prereq-blurb { display: block; color: var(--text-secondary); }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #3a3a4a; }
+    .katex { font-size: 1.05em; }
+
+    /* Difficulty pill — match live dashboard */
+    .diff-pill {
+        display: inline-flex; align-items: center; gap: 0.35rem;
+        padding: 0.2rem 0.6rem; border-radius: 999px;
+        background: var(--bg-raised); border: 1px solid var(--border);
+        font-family: 'JetBrains Mono', monospace; font-size: 0.8rem;
+        color: var(--text-secondary);
+    }
+    .diff-pill strong { color: var(--text-primary); font-weight: 600; }
+
+    /* Animated chevron — same token as live dashboard */
+    .collapse-icon { transition: transform 0.18s ease; display: inline-block; }
+    .queue-card[data-collapsed="1"] .collapse-icon { transform: rotate(-90deg); }
+
+    /* AoPS asymptote diagrams: white card so dark strokes are visible on dark theme. */
+    .aops-diagram {
+        display: block; margin: 0.75rem auto;
+        background: #fff; padding: 0.75rem; border-radius: 6px;
+        max-width: 100%;
+    }
+
+    /* Prose for statements + solutions. */
+    .sol-prose { line-height: 1.8; font-size: 1.125rem; }
+    .sol-prose .sol-p { margin: 0 0 1em 0; white-space: pre-wrap; }
+    .sol-prose .sol-p:last-child { margin-bottom: 0; }
+    .sol-prose .katex-display { margin: 0.9em 0; }
+    .sol-prose .aops-diagram { margin: 1em auto; }
+    .sol-prose .katex .boxpad,
+    .sol-prose .katex .fbox {
+        padding: 0.18em 0.4em !important;
+        border-width: 1.5px !important;
+        border-radius: 3px;
+        background: rgba(99,102,241,0.08);
+    }
+
+    /* Mobile: minimum padding/margin so hint text uses maximum width. */
+    @media (max-width: 640px) {
+        body { font-size: 16px; }
+        .hint-chain { padding: 0.3rem 0.35rem; border-radius: 0.35rem; }
+        .hint-chain-head { font-size: 0.62rem; gap: 0.35rem; }
+        .hint-card { padding: 0.3rem 0.4rem; border-left-width: 2px; border-radius: 0.3rem; }
+        .hint-card + .hint-card { margin-top: 0.25rem; }
+        .hint-card-body { font-size: 1.05rem; line-height: 1.55; }
+        .hint-card-head { font-size: 0.6rem; margin-bottom: 0.15rem; gap: 0.3rem; }
+        .hint-card-dot { width: 0.9rem; height: 0.9rem; font-size: 0.55rem; }
+        .hint-list { margin-top: 0.35rem; gap: 0.3rem; }
+        .reveal-btn { padding: 0.2rem 0.55rem; font-size: 0.85rem; margin-top: 0.35rem !important; }
+        .prereq-section { padding: 0.3rem 0.4rem; border-left-width: 2px; border-radius: 0.35rem; }
+        .prereq-section > summary { font-size: 0.7rem; gap: 0.35rem; }
+        .prereq-section .prereq-list { margin-top: 0.3rem; gap: 0.35rem; }
+        .prereq-section .prereq-item { font-size: 1rem; line-height: 1.5; }
+        .sol-prose { font-size: 1.05rem; line-height: 1.55; }
+        .sol-prose .sol-p { margin: 0 0 0.55em 0; }
+        .sol-prose .katex-display { margin: 0.45em 0; }
+        .sol-prose .aops-diagram { margin: 0.5em auto; padding: 0.4rem; }
+        .diff-pill { font-size: 0.68rem; padding: 0.1rem 0.4rem; gap: 0.2rem; }
+        .chip { font-size: 0.66rem; padding: 0.05rem 0.4rem; }
+        .chain-progress { font-size: 0.6rem; padding: 0.05rem 0.35rem; }
+        .queue-card { border-radius: 0.45rem; border-left-width: 3px; }
+        .aops-link { font-size: 0.82rem; gap: 0.35rem !important; }
+        .aops-link > span:first-child { width: 1.05rem !important; height: 1.05rem !important; }
+    }
+</style>
+</head>
+<body class="bg-gray-950 text-gray-100 min-h-screen">
+
+<nav class="bg-gray-900 border-b border-gray-800 sticky top-0 z-40">
+    <div class="max-w-5xl mx-auto px-2 sm:px-6 py-2 sm:py-4 flex items-center justify-between">
+        <a href="#" class="text-xl font-bold text-white tracking-tight">MATH</a>
+        <div class="text-xs text-gray-500 font-mono">snapshot · 2026-04-27</div>
+    </div>
+</nav>
+
+<main class="max-w-5xl mx-auto px-1 sm:px-6 py-3 sm:py-10">
+    <section>
+        <div class="space-y-2 sm:space-y-5">
+            
+            <article id="p-105"
+                     class="queue-card bg-gray-900 border border-gray-800 border-l-4 border-l-blue-400 rounded-xl overflow-hidden">
+                <header class="card-header px-2 sm:px-5 py-2 sm:py-4 flex items-center justify-between gap-2 sm:gap-4 cursor-pointer select-none hover:bg-gray-800/30 transition">
+                    <div class="flex-1 min-w-0">
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <span class="w-5 h-5 rounded bg-gray-800 text-gray-400 text-xs font-mono font-bold flex items-center justify-center">1</span>
+                            <span class="chip chip-nt">Number Theory</span>
+                            <span class="text-xs text-gray-500 font-mono">AIME 2022 #13</span>
+                            
+                            <span class="text-xs text-gray-600 truncate">· Intermediate Number Theory</span>
+                        </div>
+                    </div>
+                    <div class="shrink-0 flex items-center gap-3">
+                        <span class="diff-pill" title="AoPS 1–10 difficulty">AoPS <strong>5.00</strong></span>
+                        <span class="collapse-icon font-mono text-xs text-gray-500">▾</span>
+                    </div>
+                </header>
+
+                <div class="card-body">
+                    <div class="px-2 sm:px-5 pb-2 sm:pb-4 text-gray-200 sol-prose"><p class="sol-p">There is a polynomial $P(x)$ with integer coefficients such that\[P(x)=\frac{(x^{2310}-1)^6}{(x^{105}-1)(x^{70}-1)(x^{42}-1)(x^{30}-1)}\]holds for every $0&lt;x&lt;1.$ Find the coefficient of $x^{2022}$ in $P(x)$.</p></div>
+
+                    
+                    
+                    <div class="px-2 sm:px-5 pb-2 sm:pb-4">
+                        <details class="prereq-section">
+                            <summary>
+                                <span>Working vocabulary</span>
+                                <span class="count-chip">4</span>
+                            </summary>
+                            <div class="prereq-list">
+                                
+                                <div class="prereq-item">
+                                    <a href="https://en.wikipedia.org/wiki/Coefficient" target="_blank" rel="noopener">Coefficient</a>
+                                    <span class="prereq-blurb">Know what it means to find the coefficient of $x^{2022}$ in an expanded polynomial expression.</span>
+                                </div>
+                                
+                                <div class="prereq-item">
+                                    <a href="https://en.wikipedia.org/wiki/Exponentiation" target="_blank" rel="noopener">Exponentiation</a>
+                                    <span class="prereq-blurb">Be fluent manipulating expressions like $x^{2310}$ and $x^{105}$ using standard power rules.</span>
+                                </div>
+                                
+                                <div class="prereq-item">
+                                    <a href="https://en.wikipedia.org/wiki/Polynomial" target="_blank" rel="noopener">Polynomial</a>
+                                    <span class="prereq-blurb">Know what a polynomial with integer coefficients is; be fluent reading and evaluating expressions in $x$.</span>
+                                </div>
+                                
+                                <div class="prereq-item">
+                                    <a href="https://en.wikipedia.org/wiki/Rational_function" target="_blank" rel="noopener">Rational function</a>
+                                    <span class="prereq-blurb">Understand that the right-hand side is a ratio of two polynomial-like expressions that is claimed to equal a polynomial.</span>
+                                </div>
+                                
+                            </div>
+                        </details>
+                    </div>
+                    
+
+                    
+                    
+                    <div class="border-t border-gray-800 px-1 sm:px-5 py-2 sm:py-4">
+                        <div class="hint-chain" data-total="5">
+                            <div class="hint-chain-head">
+                                <span>Hints</span>
+                                <span class="chain-progress" data-progress>0 / 5</span>
+                            </div>
+                            <div class="hint-list">
+                                
+                                <div class="hint-card" hidden data-idx="0">
+                                    <div class="hint-card-head">
+                                        <span class="hint-card-dot">1</span>
+                                        <span>Hint 1</span>
+                                    </div>
+                                    <div class="hint-card-body">What kind of object is $P(x)$ here, and what does &#39;coefficient of $x^{2022}$&#39; really mean once you rewrite each factor as an infinite series for $0&lt;x&lt;1$?</div>
+                                </div>
+                                
+                                <div class="hint-card" hidden data-idx="1">
+                                    <div class="hint-card-head">
+                                        <span class="hint-card-dot">2</span>
+                                        <span>Hint 2</span>
+                                    </div>
+                                    <div class="hint-card-body">Since $0&lt;x&lt;1$, what happens if you expand each $\frac{1}{x^k-1}$ as a geometric series — what combinatorial question does finding one coefficient turn into?</div>
+                                </div>
+                                
+                                <div class="hint-card" hidden data-idx="2">
+                                    <div class="hint-card-head">
+                                        <span class="hint-card-dot">3</span>
+                                        <span>Hint 3</span>
+                                    </div>
+                                    <div class="hint-card-body">After expanding, aren&#39;t you really just counting nonnegative integer tuples $(b,c,d,e)$ with $105b+70c+42d+30e=2022$ (the $(x^{2310}-1)^6$ piece contributes nothing at degree $2022$ — why)?</div>
+                                </div>
+                                
+                                <div class="hint-card" hidden data-idx="3">
+                                    <div class="hint-card-head">
+                                        <span class="hint-card-dot">4</span>
+                                        <span>Hint 4</span>
+                                    </div>
+                                    <div class="hint-card-body">Each coefficient $105,70,42,30$ misses exactly one of the primes $\{2,3,5,7\}$ — what does reducing the equation $\bmod 2$, then $\bmod 3$, then $\bmod 5$, then $\bmod 7$ force about $b,c,d,e$ one at a time?</div>
+                                </div>
+                                
+                                <div class="hint-card" hidden data-idx="4">
+                                    <div class="hint-card-head">
+                                        <span class="hint-card-dot">5</span>
+                                        <span>Hint 5</span>
+                                    </div>
+                                    <div class="hint-card-body">After those forced substitutions collapse the equation down to something of the form $b&#39;+c&#39;+d&#39;+e&#39;=9$, what classical counting formula answers &#39;how many nonnegative integer solutions&#39;?</div>
+                                </div>
+                                
+                            </div>
+                            <button class="reveal-btn mt-3" data-next="0">Show hint 1 →</button>
+                        </div>
+                    </div>
+                    
+
+                    <div class="border-t border-gray-800 px-2 sm:px-5 py-2 sm:py-4">
+                        <a href="https://artofproblemsolving.com/wiki/index.php/2022_AIME_II_Problems/Problem_13" target="_blank" rel="noopener"
+   class="aops-link inline-flex items-center gap-2 text-sm text-gray-500 hover:text-indigo-300 transition">
+    <span class="w-5 h-5 rounded-full border border-gray-700 flex items-center justify-center text-[10px]">📖</span>
+    <span>Read solutions on AoPS Wiki ↗</span>
+</a>
+                    </div>
+                </div>
+            </article>
+            
+            <article id="p-435"
+                     class="queue-card bg-gray-900 border border-gray-800 border-l-4 border-l-blue-400 rounded-xl overflow-hidden">
+                <header class="card-header px-2 sm:px-5 py-2 sm:py-4 flex items-center justify-between gap-2 sm:gap-4 cursor-pointer select-none hover:bg-gray-800/30 transition">
+                    <div class="flex-1 min-w-0">
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <span class="w-5 h-5 rounded bg-gray-800 text-gray-400 text-xs font-mono font-bold flex items-center justify-center">2</span>
+                            <span class="chip chip-nt">Number Theory</span>
+                            <span class="text-xs text-gray-500 font-mono">AIME 2016 #12</span>
+                            
+                                <span class="chip chip-ai" title="Topic auto-classified by AI (no AoPS category tag)">AI tagged</span>
+                            
+                            <span class="text-xs text-gray-600 truncate">· Intermediate Number Theory</span>
+                        </div>
+                    </div>
+                    <div class="shrink-0 flex items-center gap-3">
+                        <span class="diff-pill" title="AoPS 1–10 difficulty">AoPS <strong>5.00</strong></span>
+                        <span class="collapse-icon font-mono text-xs text-gray-500">▾</span>
+                    </div>
+                </header>
+
+                <div class="card-body">
+                    <div class="px-2 sm:px-5 pb-2 sm:pb-4 text-gray-200 sol-prose"><p class="sol-p">Find the least positive integer $m$ such that $m^2 - m + 11$ is a product of at least four not necessarily distinct primes.</p></div>
+
+                    
+                    
+                    <div class="px-2 sm:px-5 pb-2 sm:pb-4">
+                        <details class="prereq-section">
+                            <summary>
+                                <span>Working vocabulary</span>
+                                <span class="count-chip">5</span>
+                            </summary>
+                            <div class="prereq-list">
+                                
+                                <div class="prereq-item">
+                                    <a href="https://en.wikipedia.org/wiki/Divisibility" target="_blank" rel="noopener">Divisibility</a>
+                                    <span class="prereq-blurb">check whether small primes divide a given integer.</span>
+                                </div>
+                                
+                                <div class="prereq-item">
+                                    <a href="https://en.wikipedia.org/wiki/Integer_factorization" target="_blank" rel="noopener">Integer factorization</a>
+                                    <span class="prereq-blurb">comfortably factor an integer into its prime factors.</span>
+                                </div>
+                                
+                                <div class="prereq-item">
+                                    <a href="https://en.wikipedia.org/wiki/Positive_integer" target="_blank" rel="noopener">Positive integer</a>
+                                    <span class="prereq-blurb">know what positive integers are and how to iterate $m = 1, 2, 3, \dots$.</span>
+                                </div>
+                                
+                                <div class="prereq-item">
+                                    <a href="https://en.wikipedia.org/wiki/Prime_number" target="_blank" rel="noopener">Prime number</a>
+                                    <span class="prereq-blurb">recognize primes and be able to test small numbers for primality.</span>
+                                </div>
+                                
+                                <div class="prereq-item">
+                                    <a href="https://en.wikipedia.org/wiki/Quadratic_polynomial" target="_blank" rel="noopener">Quadratic polynomial</a>
+                                    <span class="prereq-blurb">evaluate expressions of the form $m^2 - m + 11$ for given $m$.</span>
+                                </div>
+                                
+                            </div>
+                        </details>
+                    </div>
+                    
+
+                    
+                    
+                    <div class="border-t border-gray-800 px-1 sm:px-5 py-2 sm:py-4">
+                        <div class="hint-chain" data-total="5">
+                            <div class="hint-chain-head">
+                                <span>Hints</span>
+                                <span class="chain-progress" data-progress>0 / 5</span>
+                            </div>
+                            <div class="hint-list">
+                                
+                                <div class="hint-card" hidden data-idx="0">
+                                    <div class="hint-card-head">
+                                        <span class="hint-card-dot">1</span>
+                                        <span>Hint 1</span>
+                                    </div>
+                                    <div class="hint-card-body">What kind of object is $m^2 - m + 11$, and what would it mean for it to be a product of at least four primes (counting repetition)?</div>
+                                </div>
+                                
+                                <div class="hint-card" hidden data-idx="1">
+                                    <div class="hint-card-head">
+                                        <span class="hint-card-dot">2</span>
+                                        <span>Hint 2</span>
+                                    </div>
+                                    <div class="hint-card-body">If you wanted any prime $p$ to divide $m^2 - m + 11$, what congruence would $m$ have to satisfy $\pmod{p}$ — and can you check whether small primes like $2, 3, 5, 7$ are ever achievable?</div>
+                                </div>
+                                
+                                <div class="hint-card" hidden data-idx="2">
+                                    <div class="hint-card-head">
+                                        <span class="hint-card-dot">3</span>
+                                        <span>Hint 3</span>
+                                    </div>
+                                    <div class="hint-card-body">Given what you just learned about which primes are even allowed, what is the smallest possible value the product of four such primes could take?</div>
+                                </div>
+                                
+                                <div class="hint-card" hidden data-idx="3">
+                                    <div class="hint-card-head">
+                                        <span class="hint-card-dot">4</span>
+                                        <span>Hint 4</span>
+                                    </div>
+                                    <div class="hint-card-body">If you tentatively imagined the smallest case where all four prime factors are equal to the smallest allowed prime, could the equation $m^2 - m + 11 = (\text{that value})$ actually have an integer solution — and how could squaring-trick bounds rule it out?</div>
+                                </div>
+                                
+                                <div class="hint-card" hidden data-idx="4">
+                                    <div class="hint-card-head">
+                                        <span class="hint-card-dot">5</span>
+                                        <span>Hint 5</span>
+                                    </div>
+                                    <div class="hint-card-body">Once that minimal case is excluded, what is the next-smallest candidate value for $m^2 - m + 11$, and can you solve for $m$ directly from it?</div>
+                                </div>
+                                
+                            </div>
+                            <button class="reveal-btn mt-3" data-next="0">Show hint 1 →</button>
+                        </div>
+                    </div>
+                    
+
+                    <div class="border-t border-gray-800 px-2 sm:px-5 py-2 sm:py-4">
+                        <a href="https://artofproblemsolving.com/wiki/index.php/2016_AIME_I_Problems/Problem_12" target="_blank" rel="noopener"
+   class="aops-link inline-flex items-center gap-2 text-sm text-gray-500 hover:text-indigo-300 transition">
+    <span class="w-5 h-5 rounded-full border border-gray-700 flex items-center justify-center text-[10px]">📖</span>
+    <span>Read solutions on AoPS Wiki ↗</span>
+</a>
+                    </div>
+                </div>
+            </article>
+            
+            <article id="p-151"
+                     class="queue-card bg-gray-900 border border-gray-800 border-l-4 border-l-purple-400 rounded-xl overflow-hidden">
+                <header class="card-header px-2 sm:px-5 py-2 sm:py-4 flex items-center justify-between gap-2 sm:gap-4 cursor-pointer select-none hover:bg-gray-800/30 transition">
+                    <div class="flex-1 min-w-0">
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <span class="w-5 h-5 rounded bg-gray-800 text-gray-400 text-xs font-mono font-bold flex items-center justify-center">3</span>
+                            <span class="chip chip-cp">Counting &amp; Probability</span>
+                            <span class="text-xs text-gray-500 font-mono">AIME 2005 #5</span>
+                            
+                            <span class="text-xs text-gray-600 truncate">· Intermediate Combinatorics</span>
+                        </div>
+                    </div>
+                    <div class="shrink-0 flex items-center gap-3">
+                        <span class="diff-pill" title="AoPS 1–10 difficulty">AoPS <strong>4.00</strong></span>
+                        <span class="collapse-icon font-mono text-xs text-gray-500">▾</span>
+                    </div>
+                </header>
+
+                <div class="card-body">
+                    <div class="px-2 sm:px-5 pb-2 sm:pb-4 text-gray-200 sol-prose"><p class="sol-p">Robert has 4 indistinguishable gold coins and 4 indistinguishable silver coins. Each coin has an engraving of one face on one side, but not on the other. He wants to stack the eight coins on a table into a single stack so that no two adjacent coins are face to face. Find the number of possible distinguishable arrangements of the 8 coins.</p></div>
+
+                    
+                    
+                    <div class="px-2 sm:px-5 pb-2 sm:pb-4">
+                        <details class="prereq-section">
+                            <summary>
+                                <span>Working vocabulary</span>
+                                <span class="count-chip">5</span>
+                            </summary>
+                            <div class="prereq-list">
+                                
+                                <div class="prereq-item">
+                                    <a href="https://en.wikipedia.org/wiki/Combination" target="_blank" rel="noopener">Combination</a>
+                                    <span class="prereq-blurb">be comfortable counting arrangements of indistinguishable objects in a line, like choosing $4$ of $8$ positions.</span>
+                                </div>
+                                
+                                <div class="prereq-item">
+                                    <a href="https://en.wikipedia.org/wiki/Multiplication_principle" target="_blank" rel="noopener">Multiplication principle</a>
+                                    <span class="prereq-blurb">combine independent counting choices by multiplying their counts.</span>
+                                </div>
+                                
+                                <div class="prereq-item">
+                                    <a href="https://en.wikipedia.org/wiki/Permutation" target="_blank" rel="noopener">Permutation</a>
+                                    <span class="prereq-blurb">know how to count orderings of a sequence and adjust for indistinguishable items.</span>
+                                </div>
+                                
+                                <div class="prereq-item">
+                                    <a href="https://en.wikipedia.org/wiki/Sequence" target="_blank" rel="noopener">Sequence</a>
+                                    <span class="prereq-blurb">be able to model a stack as an ordered list of $8$ items and reason about adjacency.</span>
+                                </div>
+                                
+                                <div class="prereq-item">
+                                    <a href="https://en.wikipedia.org/wiki/Symmetry" target="_blank" rel="noopener">Symmetry</a>
+                                    <span class="prereq-blurb">recognize when two configurations are the &#34;same&#34; arrangement to avoid overcounting.</span>
+                                </div>
+                                
+                            </div>
+                        </details>
+                    </div>
+                    
+
+                    
+                    
+                    <div class="border-t border-gray-800 px-1 sm:px-5 py-2 sm:py-4">
+                        <div class="hint-chain" data-total="4">
+                            <div class="hint-chain-head">
+                                <span>Hints</span>
+                                <span class="chain-progress" data-progress>0 / 4</span>
+                            </div>
+                            <div class="hint-list">
+                                
+                                <div class="hint-card" hidden data-idx="0">
+                                    <div class="hint-card-head">
+                                        <span class="hint-card-dot">1</span>
+                                        <span>Hint 1</span>
+                                    </div>
+                                    <div class="hint-card-body">What two independent choices are being made for each coin, and can you handle them separately?</div>
+                                </div>
+                                
+                                <div class="hint-card" hidden data-idx="1">
+                                    <div class="hint-card-head">
+                                        <span class="hint-card-dot">2</span>
+                                        <span>Hint 2</span>
+                                    </div>
+                                    <div class="hint-card-body">If you ignore orientation for a moment, how many ways are there just to place the $4$ gold and $4$ silver coins in a stack?</div>
+                                </div>
+                                
+                                <div class="hint-card" hidden data-idx="2">
+                                    <div class="hint-card-head">
+                                        <span class="hint-card-dot">3</span>
+                                        <span>Hint 3</span>
+                                    </div>
+                                    <div class="hint-card-body">For the orientation piece, what pattern of up/down is forbidden between two neighbors, and what does that force about where &#39;down&#39; coins can sit relative to &#39;up&#39; coins?</div>
+                                </div>
+                                
+                                <div class="hint-card" hidden data-idx="3">
+                                    <div class="hint-card-head">
+                                        <span class="hint-card-dot">4</span>
+                                        <span>Hint 4</span>
+                                    </div>
+                                    <div class="hint-card-body">Once you see that every valid orientation string is one block followed by another, how many places can the boundary between the two blocks sit in a stack of $8$?</div>
+                                </div>
+                                
+                            </div>
+                            <button class="reveal-btn mt-3" data-next="0">Show hint 1 →</button>
+                        </div>
+                    </div>
+                    
+
+                    <div class="border-t border-gray-800 px-2 sm:px-5 py-2 sm:py-4">
+                        <a href="https://artofproblemsolving.com/wiki/index.php/2005_AIME_I_Problems/Problem_5" target="_blank" rel="noopener"
+   class="aops-link inline-flex items-center gap-2 text-sm text-gray-500 hover:text-indigo-300 transition">
+    <span class="w-5 h-5 rounded-full border border-gray-700 flex items-center justify-center text-[10px]">📖</span>
+    <span>Read solutions on AoPS Wiki ↗</span>
+</a>
+                    </div>
+                </div>
+            </article>
+            
+            <article id="p-162"
+                     class="queue-card bg-gray-900 border border-gray-800 border-l-4 border-l-purple-400 rounded-xl overflow-hidden">
+                <header class="card-header px-2 sm:px-5 py-2 sm:py-4 flex items-center justify-between gap-2 sm:gap-4 cursor-pointer select-none hover:bg-gray-800/30 transition">
+                    <div class="flex-1 min-w-0">
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <span class="w-5 h-5 rounded bg-gray-800 text-gray-400 text-xs font-mono font-bold flex items-center justify-center">4</span>
+                            <span class="chip chip-cp">Counting &amp; Probability</span>
+                            <span class="text-xs text-gray-500 font-mono">AMC12 2006 #25</span>
+                            
+                            <span class="text-xs text-gray-600 truncate">· Intermediate Combinatorics</span>
+                        </div>
+                    </div>
+                    <div class="shrink-0 flex items-center gap-3">
+                        <span class="diff-pill" title="AoPS 1–10 difficulty">AoPS <strong>4.00</strong></span>
+                        <span class="collapse-icon font-mono text-xs text-gray-500">▾</span>
+                    </div>
+                </header>
+
+                <div class="card-body">
+                    <div class="px-2 sm:px-5 pb-2 sm:pb-4 text-gray-200 sol-prose"><p class="sol-p">How many non- empty subsets $S$ of $\{1,2,3,\ldots ,15\}$ have the following two properties?</p>
+<p class="sol-p">$(1)$ No two consecutive integers belong to $S$.</p>
+<p class="sol-p">$(2)$ If $S$ contains $k$ elements, then $S$ contains no number less than $k$.</p>
+<p class="sol-p">$\mathrm{(A) \ } 277\qquad \mathrm{(B) \ } 311\qquad \mathrm{(C) \ } 376\qquad \mathrm{(D) \ } 377\qquad \mathrm{(E) \ } 405$</p></div>
+
+                    
+                    
+                    <div class="px-2 sm:px-5 pb-2 sm:pb-4">
+                        <details class="prereq-section">
+                            <summary>
+                                <span>Working vocabulary</span>
+                                <span class="count-chip">5</span>
+                            </summary>
+                            <div class="prereq-list">
+                                
+                                <div class="prereq-item">
+                                    <a href="https://en.wikipedia.org/wiki/Cardinality" target="_blank" rel="noopener">Cardinality</a>
+                                    <span class="prereq-blurb">understand what it means for $S$ to contain $k$ elements.</span>
+                                </div>
+                                
+                                <div class="prereq-item">
+                                    <a href="https://en.wikipedia.org/wiki/Inequality_(mathematics)" target="_blank" rel="noopener">Inequality (mathematics)</a>
+                                    <span class="prereq-blurb">parse the condition &#34;no number less than $k$&#34; as $\min(S) \geq k$.</span>
+                                </div>
+                                
+                                <div class="prereq-item">
+                                    <a href="https://en.wikipedia.org/wiki/Integer" target="_blank" rel="noopener">Integer</a>
+                                    <span class="prereq-blurb">recognize consecutive integers like $n$ and $n+1$ within $\{1,\ldots,15\}$.</span>
+                                </div>
+                                
+                                <div class="prereq-item">
+                                    <a href="https://en.wikipedia.org/wiki/Set_(mathematics)" target="_blank" rel="noopener">Set (mathematics)</a>
+                                    <span class="prereq-blurb">be comfortable reading subset notation and listing elements of $\{1,2,\ldots,15\}$.</span>
+                                </div>
+                                
+                                <div class="prereq-item">
+                                    <a href="https://en.wikipedia.org/wiki/Subset" target="_blank" rel="noopener">Subset</a>
+                                    <span class="prereq-blurb">know what non-empty subsets are and how to count elements of a subset.</span>
+                                </div>
+                                
+                            </div>
+                        </details>
+                    </div>
+                    
+
+                    
+                    
+                    <div class="border-t border-gray-800 px-1 sm:px-5 py-2 sm:py-4">
+                        <div class="hint-chain" data-total="4">
+                            <div class="hint-chain-head">
+                                <span>Hints</span>
+                                <span class="chain-progress" data-progress>0 / 4</span>
+                            </div>
+                            <div class="hint-list">
+                                
+                                <div class="hint-card" hidden data-idx="0">
+                                    <div class="hint-card-head">
+                                        <span class="hint-card-dot">1</span>
+                                        <span>Hint 1</span>
+                                    </div>
+                                    <div class="hint-card-body">What two constraints is this subset required to satisfy, and which of the two feels harder to handle directly?</div>
+                                </div>
+                                
+                                <div class="hint-card" hidden data-idx="1">
+                                    <div class="hint-card-head">
+                                        <span class="hint-card-dot">2</span>
+                                        <span>Hint 2</span>
+                                    </div>
+                                    <div class="hint-card-body">If you fix the size $k$ of your subset, can you split the count by $k$ and think about each case separately?</div>
+                                </div>
+                                
+                                <div class="hint-card" hidden data-idx="2">
+                                    <div class="hint-card-head">
+                                        <span class="hint-card-dot">3</span>
+                                        <span>Hint 3</span>
+                                    </div>
+                                    <div class="hint-card-body">Given the smallest element must be at least $k$, how many numbers are actually available to choose from, and can you find a way to encode the no-two-consecutive rule by relabeling those positions?</div>
+                                </div>
+                                
+                                <div class="hint-card" hidden data-idx="3">
+                                    <div class="hint-card-head">
+                                        <span class="hint-card-dot">4</span>
+                                        <span>Hint 4</span>
+                                    </div>
+                                    <div class="hint-card-body">For a fixed $k$, if you shift each chosen element to absorb the forced gaps between them, what simpler unrestricted choice does your problem turn into?</div>
+                                </div>
+                                
+                            </div>
+                            <button class="reveal-btn mt-3" data-next="0">Show hint 1 →</button>
+                        </div>
+                    </div>
+                    
+
+                    <div class="border-t border-gray-800 px-2 sm:px-5 py-2 sm:py-4">
+                        <a href="https://artofproblemsolving.com/wiki/index.php/2006_AMC_12A_Problems/Problem_25" target="_blank" rel="noopener"
+   class="aops-link inline-flex items-center gap-2 text-sm text-gray-500 hover:text-indigo-300 transition">
+    <span class="w-5 h-5 rounded-full border border-gray-700 flex items-center justify-center text-[10px]">📖</span>
+    <span>Read solutions on AoPS Wiki ↗</span>
+</a>
+                    </div>
+                </div>
+            </article>
+            
+            <article id="p-392"
+                     class="queue-card bg-gray-900 border border-gray-800 border-l-4 border-l-orange-400 rounded-xl overflow-hidden">
+                <header class="card-header px-2 sm:px-5 py-2 sm:py-4 flex items-center justify-between gap-2 sm:gap-4 cursor-pointer select-none hover:bg-gray-800/30 transition">
+                    <div class="flex-1 min-w-0">
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <span class="w-5 h-5 rounded bg-gray-800 text-gray-400 text-xs font-mono font-bold flex items-center justify-center">5</span>
+                            <span class="chip chip-alg">Algebra</span>
+                            <span class="text-xs text-gray-500 font-mono">AIME 2012 #2</span>
+                            
+                                <span class="chip chip-ai" title="Topic auto-classified by AI (no AoPS category tag)">AI tagged</span>
+                            
+                            <span class="text-xs text-gray-600 truncate">· Intermediate Algebra</span>
+                        </div>
+                    </div>
+                    <div class="shrink-0 flex items-center gap-3">
+                        <span class="diff-pill" title="AoPS 1–10 difficulty">AoPS <strong>3.00</strong></span>
+                        <span class="collapse-icon font-mono text-xs text-gray-500">▾</span>
+                    </div>
+                </header>
+
+                <div class="card-body">
+                    <div class="px-2 sm:px-5 pb-2 sm:pb-4 text-gray-200 sol-prose"><p class="sol-p">The terms of an arithmetic sequence add to $715$. The first term of the sequence is increased by $1$, the second term is increased by $3$, the third term is increased by $5$, and in general, the $k$th term is increased by the $k$th odd positive integer. The terms of the new sequence add to $836$. Find the sum of the first, last, and middle terms of the original sequence.</p></div>
+
+                    
+                    
+                    <div class="px-2 sm:px-5 pb-2 sm:pb-4">
+                        <details class="prereq-section">
+                            <summary>
+                                <span>Working vocabulary</span>
+                                <span class="count-chip">5</span>
+                            </summary>
+                            <div class="prereq-list">
+                                
+                                <div class="prereq-item">
+                                    <a href="https://en.wikipedia.org/wiki/Arithmetic_progression" target="_blank" rel="noopener">Arithmetic progression</a>
+                                    <span class="prereq-blurb">be comfortable with the general term $a_k = a_1 + (k-1)d$ and how consecutive terms relate.</span>
+                                </div>
+                                
+                                <div class="prereq-item">
+                                    <a href="https://en.wikipedia.org/wiki/Linear_equation" target="_blank" rel="noopener">Linear equation</a>
+                                    <span class="prereq-blurb">solve basic linear equations in one or two unknowns from given numeric conditions.</span>
+                                </div>
+                                
+                                <div class="prereq-item">
+                                    <a href="https://en.wikipedia.org/wiki/Odd_number" target="_blank" rel="noopener">Odd number</a>
+                                    <span class="prereq-blurb">recognize that the $k$th odd positive integer is $2k-1$.</span>
+                                </div>
+                                
+                                <div class="prereq-item">
+                                    <a href="https://en.wikipedia.org/wiki/Sequence" target="_blank" rel="noopener">Sequence</a>
+                                    <span class="prereq-blurb">read indexed notation $a_1, a_2, \ldots, a_n$ and identify first, last, and middle positions.</span>
+                                </div>
+                                
+                                <div class="prereq-item">
+                                    <a href="https://en.wikipedia.org/wiki/Summation" target="_blank" rel="noopener">Summation</a>
+                                    <span class="prereq-blurb">know how to add a finite list of terms and manipulate sums like $\sum (a_k + b_k)$.</span>
+                                </div>
+                                
+                            </div>
+                        </details>
+                    </div>
+                    
+
+                    
+                    
+                    <div class="border-t border-gray-800 px-1 sm:px-5 py-2 sm:py-4">
+                        <div class="hint-chain" data-total="4">
+                            <div class="hint-chain-head">
+                                <span>Hints</span>
+                                <span class="chain-progress" data-progress>0 / 4</span>
+                            </div>
+                            <div class="hint-list">
+                                
+                                <div class="hint-card" hidden data-idx="0">
+                                    <div class="hint-card-head">
+                                        <span class="hint-card-dot">1</span>
+                                        <span>Hint 1</span>
+                                    </div>
+                                    <div class="hint-card-body">What two pieces of information does the problem give you about the sequence, and what exactly are you being asked to find?</div>
+                                </div>
+                                
+                                <div class="hint-card" hidden data-idx="1">
+                                    <div class="hint-card-head">
+                                        <span class="hint-card-dot">2</span>
+                                        <span>Hint 2</span>
+                                    </div>
+                                    <div class="hint-card-body">The total grew from $715$ to $836$ — what is that difference, and does the number $121$ remind you of a pattern involving consecutive odd integers?</div>
+                                </div>
+                                
+                                <div class="hint-card" hidden data-idx="2">
+                                    <div class="hint-card-head">
+                                        <span class="hint-card-dot">3</span>
+                                        <span>Hint 3</span>
+                                    </div>
+                                    <div class="hint-card-body">Once you know how many terms $n$ there are, what does the average $\frac{715}{n}$ tell you about the middle term — and how do the first and last terms relate to it?</div>
+                                </div>
+                                
+                                <div class="hint-card" hidden data-idx="3">
+                                    <div class="hint-card-head">
+                                        <span class="hint-card-dot">4</span>
+                                        <span>Hint 4</span>
+                                    </div>
+                                    <div class="hint-card-body">If the first, last, and middle terms are all balanced around the same center, can you express their sum as a simple multiple of just one of them?</div>
+                                </div>
+                                
+                            </div>
+                            <button class="reveal-btn mt-3" data-next="0">Show hint 1 →</button>
+                        </div>
+                    </div>
+                    
+
+                    <div class="border-t border-gray-800 px-2 sm:px-5 py-2 sm:py-4">
+                        <a href="https://artofproblemsolving.com/wiki/index.php/2012_AIME_I_Problems/Problem_2" target="_blank" rel="noopener"
+   class="aops-link inline-flex items-center gap-2 text-sm text-gray-500 hover:text-indigo-300 transition">
+    <span class="w-5 h-5 rounded-full border border-gray-700 flex items-center justify-center text-[10px]">📖</span>
+    <span>Read solutions on AoPS Wiki ↗</span>
+</a>
+                    </div>
+                </div>
+            </article>
+            
+            <article id="p-89"
+                     class="queue-card bg-gray-900 border border-gray-800 border-l-4 border-l-blue-400 rounded-xl overflow-hidden">
+                <header class="card-header px-2 sm:px-5 py-2 sm:py-4 flex items-center justify-between gap-2 sm:gap-4 cursor-pointer select-none hover:bg-gray-800/30 transition">
+                    <div class="flex-1 min-w-0">
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <span class="w-5 h-5 rounded bg-gray-800 text-gray-400 text-xs font-mono font-bold flex items-center justify-center">6</span>
+                            <span class="chip chip-nt">Number Theory</span>
+                            <span class="text-xs text-gray-500 font-mono">AIME 2019 #9</span>
+                            
+                            <span class="text-xs text-gray-600 truncate">· Intermediate Number Theory</span>
+                        </div>
+                    </div>
+                    <div class="shrink-0 flex items-center gap-3">
+                        <span class="diff-pill" title="AoPS 1–10 difficulty">AoPS <strong>4.50</strong></span>
+                        <span class="collapse-icon font-mono text-xs text-gray-500">▾</span>
+                    </div>
+                </header>
+
+                <div class="card-body">
+                    <div class="px-2 sm:px-5 pb-2 sm:pb-4 text-gray-200 sol-prose"><p class="sol-p">Let $\tau(n)$ denote the number of positive integer divisors of $n$. Find the sum of the six least positive integers $n$ that are solutions to $\tau (n) + \tau (n+1) = 7$.</p></div>
+
+                    
+                    
+                    <div class="px-2 sm:px-5 pb-2 sm:pb-4">
+                        <details class="prereq-section">
+                            <summary>
+                                <span>Working vocabulary</span>
+                                <span class="count-chip">5</span>
+                            </summary>
+                            <div class="prereq-list">
+                                
+                                <div class="prereq-item">
+                                    <a href="https://en.wikipedia.org/wiki/Divisor" target="_blank" rel="noopener">Divisor</a>
+                                    <span class="prereq-blurb">be fluent in finding all positive divisors of an integer by trial.</span>
+                                </div>
+                                
+                                <div class="prereq-item">
+                                    <a href="https://en.wikipedia.org/wiki/Divisor_function" target="_blank" rel="noopener">Divisor function</a>
+                                    <span class="prereq-blurb">know that $\tau(n)$ counts positive divisors of $n$ and how to compute it for small $n$.</span>
+                                </div>
+                                
+                                <div class="prereq-item">
+                                    <a href="https://en.wikipedia.org/wiki/Equation_solving" target="_blank" rel="noopener">Equation solving</a>
+                                    <span class="prereq-blurb">parse the equation $\tau(n)+\tau(n+1)=7$ and test candidate values of $n$.</span>
+                                </div>
+                                
+                                <div class="prereq-item">
+                                    <a href="https://en.wikipedia.org/wiki/Integer" target="_blank" rel="noopener">Integer</a>
+                                    <span class="prereq-blurb">comfort with positive integers and basic arithmetic on them.</span>
+                                </div>
+                                
+                                <div class="prereq-item">
+                                    <a href="https://en.wikipedia.org/wiki/Prime_factorization" target="_blank" rel="noopener">Prime factorization</a>
+                                    <span class="prereq-blurb">be able to factor small integers into primes quickly and reliably.</span>
+                                </div>
+                                
+                            </div>
+                        </details>
+                    </div>
+                    
+
+                    
+                    
+                    <div class="border-t border-gray-800 px-1 sm:px-5 py-2 sm:py-4">
+                        <div class="hint-chain" data-total="5">
+                            <div class="hint-chain-head">
+                                <span>Hints</span>
+                                <span class="chain-progress" data-progress>0 / 5</span>
+                            </div>
+                            <div class="hint-list">
+                                
+                                <div class="hint-card" hidden data-idx="0">
+                                    <div class="hint-card-head">
+                                        <span class="hint-card-dot">1</span>
+                                        <span>Hint 1</span>
+                                    </div>
+                                    <div class="hint-card-body">What does $\tau(n)$ count, and how is it determined by the exponents in the prime factorization of $n$?</div>
+                                </div>
+                                
+                                <div class="hint-card" hidden data-idx="1">
+                                    <div class="hint-card-head">
+                                        <span class="hint-card-dot">2</span>
+                                        <span>Hint 2</span>
+                                    </div>
+                                    <div class="hint-card-body">If two positive integers have divisor counts summing to $7$, what are the possible unordered splits $\{\tau(n), \tau(n+1)\}$, and which of those splits are actually achievable?</div>
+                                </div>
+                                
+                                <div class="hint-card" hidden data-idx="2">
+                                    <div class="hint-card-head">
+                                        <span class="hint-card-dot">3</span>
+                                        <span>Hint 3</span>
+                                    </div>
+                                    <div class="hint-card-body">In every valid split, one of the two counts is odd — what special shape must a positive integer have for $\tau$ to be odd?</div>
+                                </div>
+                                
+                                <div class="hint-card" hidden data-idx="3">
+                                    <div class="hint-card-head">
+                                        <span class="hint-card-dot">4</span>
+                                        <span>Hint 4</span>
+                                    </div>
+                                    <div class="hint-card-body">Since $n$ and $n+1$ are consecutive, what parity constraint does the odd-$\tau$ side force on the prime base $p$ sitting inside $p^2$ or $p^4$?</div>
+                                </div>
+                                
+                                <div class="hint-card" hidden data-idx="4">
+                                    <div class="hint-card-head">
+                                        <span class="hint-card-dot">5</span>
+                                        <span>Hint 5</span>
+                                    </div>
+                                    <div class="hint-card-body">Starting with the smallest prime squares $p^2$ and fourth powers $p^4$, which neighbors $p^k \pm 1$ should you test first, and how do you verify the neighbor&#39;s divisor count by hand?</div>
+                                </div>
+                                
+                            </div>
+                            <button class="reveal-btn mt-3" data-next="0">Show hint 1 →</button>
+                        </div>
+                    </div>
+                    
+
+                    <div class="border-t border-gray-800 px-2 sm:px-5 py-2 sm:py-4">
+                        <a href="https://artofproblemsolving.com/wiki/index.php/2019_AIME_I_Problems/Problem_9" target="_blank" rel="noopener"
+   class="aops-link inline-flex items-center gap-2 text-sm text-gray-500 hover:text-indigo-300 transition">
+    <span class="w-5 h-5 rounded-full border border-gray-700 flex items-center justify-center text-[10px]">📖</span>
+    <span>Read solutions on AoPS Wiki ↗</span>
+</a>
+                    </div>
+                </div>
+            </article>
+            
+        </div>
+    </section>
+
+    <footer class="text-xs text-gray-500 font-mono border-t border-gray-800 pt-3 sm:pt-6 mt-6 sm:mt-16 px-2 sm:px-0">
+        Problems © their respective owners · sourced from <a href="https://artofproblemsolving.com/wiki" target="_blank" rel="noopener" class="hover:text-gray-300">AoPS Wiki</a>.
+    </footer>
+</main>
+
+<script>
+// Every page load starts with all cards collapsed — no persistence.
+function applyCollapse(card, collapsed) {
+    const body = card.querySelector('.card-body');
+    const icon = card.querySelector('.collapse-icon');
+    body.style.display = collapsed ? 'none' : '';
+    if (icon) icon.textContent = collapsed ? '▸' : '▾';
+    card.dataset.collapsed = collapsed ? '1' : '';
+}
+document.querySelectorAll('.queue-card').forEach(card => applyCollapse(card, true));
+document.querySelectorAll('.card-header').forEach(header => {
+    header.addEventListener('click', e => {
+        if (e.target.closest('a, button')) return;
+        const card = header.closest('.queue-card');
+        applyCollapse(card, card.dataset.collapsed !== '1');
+    });
+});
+
+// Progressive hint reveal — pure client-side, no server.
+document.querySelectorAll('.hint-chain').forEach(chain => {
+    const total = +chain.dataset.total || 0;
+    const cards = [...chain.querySelectorAll('.hint-card')];
+    const btn = chain.querySelector('.reveal-btn');
+    const progress = chain.querySelector('[data-progress]');
+    function update(revealed) {
+        cards.forEach((c, i) => { if (i < revealed) c.hidden = false; });
+        if (progress) progress.textContent = `${revealed} / ${total}`;
+        if (!btn) return;
+        if (revealed >= total) { btn.hidden = true; return; }
+        btn.dataset.next = revealed;
+        btn.textContent = `Show hint ${revealed + 1} →`;
+    }
+    if (btn) {
+        btn.addEventListener('click', () => update((+btn.dataset.next || 0) + 1));
+    }
+    update(0);
+});
+</script>
+</body>
+</html>
